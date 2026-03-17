@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Storybook Guide</title>
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
+  <link rel="stylesheet" href="../shared/base.css" />
+  <link rel="stylesheet" href="./theme.css" />
+  <script defer src="../shared/site-ui.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+  <script defer src="../shared/docs-manifest.js"></script>
+  <script defer src="../shared/docs-app.js"></script>
+</head>
+<body>
+  <div class="storybook-shell docs-layout">
+    <header class="storybook-hero">
+      <div class="site-toolbar">
+        <a class="site-brand" href="../index.html">
+          <img src="../assets/favicon.svg" alt="文件站品牌圖示" />
+          <span>
+            <strong>Enterprise Docs Hub</strong>
+            <span>Storybook Guide 版</span>
+          </span>
+        </a>
+        <button class="theme-toggle" type="button" data-theme-toggle>
+          <span data-theme-toggle-label>淺色模式</span>
+        </button>
+      </div>
+      <a class="storybook-home" href="../index.html">回文件站展示首頁</a>
+      <div class="doc-chip">Storybook Guide</div>
+      <h1>你是誰，就先看哪一份文件</h1>
+      <p>如果你是第一次進來，這一版最適合。它先幫你分角色，再帶你走到對的文件。</p>
+      <input class="doc-search" data-doc-search placeholder="輸入你想找的主題，例如：新手、部署、事件、測試..." />
+      <div class="doc-search-status" data-doc-search-status></div>
+    </header>
+    <section class="storybook-personas">
+      <div class="storybook-persona-intro">
+        <h2>先選你的角色</h2>
+        <p>下面每張卡片都會帶你去最適合的閱讀路線。</p>
+      </div>
+      <div class="persona-grid" data-persona-grid></div>
+    </section>
+    <section class="storybook-content-grid">
+      <aside class="storybook-nav-card">
+        <h2>全部文件</h2>
+        <nav data-doc-nav></nav>
+      </aside>
+      <main class="storybook-main">
+        <div class="storybook-summary">
+          <div class="doc-breadcrumb" data-doc-breadcrumb></div>
+          <h2 class="doc-title" data-doc-title></h2>
+          <p class="doc-description" data-doc-description></p>
+          <div class="doc-meta-row" data-doc-meta></div>
+        </div>
+        <section class="storybook-article doc-content-shell">
+          <article class="storybook-article-inner markdown-body" data-doc-content></article>
+        </section>
+      </main>
+    </section>
+  </div>
+</body>
+</html>

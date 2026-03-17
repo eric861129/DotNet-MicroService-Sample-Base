@@ -1,0 +1,38 @@
+body {
+  background:
+    radial-gradient(circle at top right, rgba(14, 165, 233, 0.18), transparent 24rem),
+    radial-gradient(circle at top left, rgba(16, 185, 129, 0.14), transparent 20rem),
+    linear-gradient(180deg, #f0fdfb 0%, #eff6ff 100%);
+}
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at top right, rgba(14, 165, 233, 0.12), transparent 24rem),
+    radial-gradient(circle at top left, rgba(16, 185, 129, 0.1), transparent 20rem),
+    linear-gradient(180deg, #06111c 0%, #08111f 100%);
+}
+.storybook-shell { max-width: 1380px; margin: 0 auto; padding: 24px; display: grid; gap: 24px; }
+.storybook-hero, .storybook-personas, .storybook-nav-card, .storybook-summary, .storybook-article { background: rgba(255, 255, 255, 0.9); border: 1px solid rgba(14, 165, 233, 0.14); box-shadow: var(--shadow); border-radius: 30px; }
+.storybook-hero, .storybook-personas, .storybook-nav-card, .storybook-summary { padding: 26px; }
+.storybook-hero { display: grid; gap: 14px; }
+.storybook-home { text-decoration: none; color: #0f766e; font-weight: 700; }
+.storybook-hero h1, .storybook-persona-intro h2, .storybook-summary h2, .storybook-nav-card h2 { margin: 0; }
+.storybook-hero p, .storybook-persona-intro p, .storybook-summary p { margin: 0; color: #475569; }
+.storybook-personas { display: grid; gap: 18px; }
+.persona-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.persona-card { display: grid; gap: 12px; padding: 18px; border-radius: 22px; background: linear-gradient(180deg, #ffffff, #f8fafc); border: 1px solid rgba(14, 165, 233, 0.16); }
+.persona-card h3, .persona-card p { margin: 0; }
+.persona-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.persona-links a { display: inline-flex; padding: 8px 12px; border-radius: 999px; background: rgba(14, 165, 233, 0.1); color: #0f766e; text-decoration: none; font-size: 0.92rem; font-weight: 700; }
+.storybook-content-grid { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 24px; align-items: start; }
+.storybook-nav-card { position: sticky; top: 24px; }
+.storybook-main { display: grid; gap: 20px; }
+.storybook-article-inner { padding: 30px; }
+:root[data-theme="dark"] .storybook-hero,
+:root[data-theme="dark"] .storybook-personas,
+:root[data-theme="dark"] .storybook-nav-card,
+:root[data-theme="dark"] .storybook-summary,
+:root[data-theme="dark"] .storybook-article,
+:root[data-theme="dark"] .persona-card { background: rgba(15, 23, 42, 0.88); }
+:root[data-theme="dark"] .persona-links a { background: rgba(45, 212, 191, 0.12); color: #99f6e4; }
+@media (max-width: 1080px) { .storybook-content-grid { grid-template-columns: 1fr; } .storybook-nav-card { position: relative; top: 0; } }
+@media (max-width: 640px) { .storybook-shell { padding: 14px; } .storybook-hero, .storybook-personas, .storybook-nav-card, .storybook-summary, .storybook-article-inner { padding-left: 18px; padding-right: 18px; } }

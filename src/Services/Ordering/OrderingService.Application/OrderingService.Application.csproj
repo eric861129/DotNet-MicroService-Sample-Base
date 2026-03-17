@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\Enterprise.Application\Enterprise.Application.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\Enterprise.Messaging\Enterprise.Messaging.csproj" />
+    <ProjectReference Include="..\OrderingService.Contracts\OrderingService.Contracts.csproj" />
+    <ProjectReference Include="..\OrderingService.Domain\OrderingService.Domain.csproj" />
+  </ItemGroup>
+</Project>

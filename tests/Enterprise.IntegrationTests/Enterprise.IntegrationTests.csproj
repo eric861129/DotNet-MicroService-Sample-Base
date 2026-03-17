@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Microsoft.Extensions.TimeProvider.Testing" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Testcontainers.MsSql" />
+    <PackageReference Include="Testcontainers.RabbitMq" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BuildingBlocks\Enterprise.Messaging\Enterprise.Messaging.csproj" />
+    <ProjectReference Include="..\..\src\BuildingBlocks\Enterprise.Persistence\Enterprise.Persistence.csproj" />
+    <ProjectReference Include="..\..\src\Services\Inventory\InventoryService.Infrastructure\InventoryService.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Services\Notification\NotificationService.Infrastructure\NotificationService.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Services\Ordering\OrderingService.Application\OrderingService.Application.csproj" />
+    <ProjectReference Include="..\..\src\Services\Ordering\OrderingService.Contracts\OrderingService.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\Services\Ordering\OrderingService.Infrastructure\OrderingService.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Services\Ordering\OrderingService.Api\OrderingService.Api.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "CatalogService.Contracts";
+
+package catalog;
+
+service CatalogGrpc {
+  rpc GetProduct (GetProductRequest) returns (GetProductReply);
+}
+
+message GetProductRequest {
+  string product_id = 1;
+}
+
+message GetProductReply {
+  string product_id = 1;
+  string sku = 2;
+  string name = 3;
+  double price = 4;
+}

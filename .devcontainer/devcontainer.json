@@ -1,0 +1,79 @@
+{
+  "name": "Enterprise Microservices Boilerplate",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
+    "ghcr.io/devcontainers/features/azure-cli:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+        "ms-azuretools.vscode-bicep",
+        "ms-azuretools.vscode-docker",
+        "ms-vscode.powershell",
+        "humao.rest-client",
+        "redhat.vscode-yaml",
+        "github.vscode-github-actions"
+      ],
+      "settings": {
+        "dotnet.defaultSolution": "EnterpriseMicroservicesBoilerplate.sln",
+        "files.encoding": "utf8bom",
+        "editor.formatOnSave": true,
+        "terminal.integrated.defaultProfile.linux": "bash"
+      }
+    }
+  },
+  "remoteUser": "vscode",
+  "forwardPorts": [
+    8080,
+    8085,
+    7201,
+    7202,
+    7203,
+    7204,
+    15672,
+    3000,
+    9090
+  ],
+  "portsAttributes": {
+    "8080": {
+      "label": "Gateway"
+    },
+    "8085": {
+      "label": "Auth Service"
+    },
+    "7201": {
+      "label": "Catalog Service"
+    },
+    "7202": {
+      "label": "Inventory Service"
+    },
+    "7203": {
+      "label": "Ordering Service"
+    },
+    "7204": {
+      "label": "Notification Service"
+    },
+    "15672": {
+      "label": "RabbitMQ"
+    },
+    "3000": {
+      "label": "Grafana"
+    },
+    "9090": {
+      "label": "Prometheus"
+    }
+  },
+  "postCreateCommand": "bash -lc 'if [ ! -f .env ]; then cp .env.example .env; fi && dotnet restore EnterpriseMicroservicesBoilerplate.sln'",
+  "postStartCommand": "bash -lc 'chmod +x scripts/*.sh || true'",
+  "containerEnv": {
+    "DOTNET_CLI_TELEMETRY_OPTOUT": "1",
+    "DOTNET_NOLOGO": "true"
+  }
+}

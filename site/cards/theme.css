@@ -1,0 +1,31 @@
+body {
+  background:
+    radial-gradient(circle at top center, rgba(251, 191, 36, 0.26), transparent 24rem),
+    linear-gradient(180deg, #fffdf6 0%, #fff7ed 100%);
+}
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at top center, rgba(245, 158, 11, 0.12), transparent 24rem),
+    linear-gradient(180deg, #1a1206 0%, #0b1220 100%);
+}
+.cards-shell { max-width: 1380px; margin: 0 auto; padding: 24px; display: grid; gap: 24px; }
+.cards-hero { display: grid; gap: 14px; padding: 28px; border-radius: 32px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 247, 237, 0.96)); border: 1px solid rgba(245, 158, 11, 0.18); box-shadow: var(--shadow); }
+.cards-home { text-decoration: none; color: #92400e; font-weight: 700; }
+.cards-hero h1, .cards-summary h2 { margin: 0; }
+.cards-hero p, .cards-summary p { margin: 0; color: #7c5d1b; }
+.cards-grid { display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 24px; align-items: start; }
+.cards-sidebar { position: sticky; top: 24px; }
+.cards-sidebar-card, .cards-summary, .cards-article { border-radius: 28px; background: rgba(255, 255, 255, 0.92); border: 1px solid rgba(245, 158, 11, 0.16); box-shadow: var(--shadow); }
+.cards-sidebar-card { padding: 22px; }
+.cards-sidebar-card h2 { margin: 0 0 16px; font-size: 1.1rem; }
+.cards-summary { display: grid; gap: 14px; padding: 24px 26px; margin-bottom: 20px; }
+.cards-article-inner { padding: 30px; }
+:root[data-theme="dark"] .cards-hero,
+:root[data-theme="dark"] .cards-sidebar-card,
+:root[data-theme="dark"] .cards-summary,
+:root[data-theme="dark"] .cards-article { background: rgba(15, 23, 42, 0.88); }
+:root[data-theme="dark"] .cards-home,
+:root[data-theme="dark"] .cards-hero p,
+:root[data-theme="dark"] .cards-summary p { color: #fcd34d; }
+@media (max-width: 1080px) { .cards-grid { grid-template-columns: 1fr; } .cards-sidebar { position: relative; top: 0; } }
+@media (max-width: 640px) { .cards-shell { padding: 14px; } .cards-hero, .cards-sidebar-card, .cards-summary, .cards-article-inner { padding-left: 18px; padding-right: 18px; } }

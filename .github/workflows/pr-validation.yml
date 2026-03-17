@@ -1,0 +1,56 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    env:
+      RUN_CONTAINER_TESTS: true
+      TEST_RESULTS_DIR: TestResults
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Verify formatting
+        run: dotnet format EnterpriseMicroservicesBoilerplate.sln --verify-no-changes --verbosity diagnostic
+
+      - name: Restore
+        run: dotnet restore EnterpriseMicroservicesBoilerplate.sln
+
+      - name: Build
+        run: dotnet build EnterpriseMicroservicesBoilerplate.sln -c Release --no-restore -p:TreatWarningsAsErrors=true
+
+      - name: Test
+        run: dotnet test EnterpriseMicroservicesBoilerplate.sln -c Release --no-build --results-directory $TEST_RESULTS_DIR --collect:"XPlat Code Coverage"
+
+      - name: Enforce coverage threshold
+        shell: pwsh
+        run: ./scripts/ci/assert-coverage.ps1 -ResultsDirectory $env:TEST_RESULTS_DIR -MinimumLineRate 0.75
+
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cobertura-coverage
+          path: ${{ env.TEST_RESULTS_DIR }}/**/coverage.cobertura.xml
+
+      - name: Trivy filesystem scan
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          severity: CRITICAL,HIGH
+          ignore-unfixed: true
+          exit-code: '1'
+
+      - name: Validate Bicep
+        uses: azure/CLI@v2
+        with:
+          inlineScript: az bicep build --file infra/bicep/main.bicep

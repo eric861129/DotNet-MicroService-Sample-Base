@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <LangVersion>preview</LangVersion>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <Company>Eric861129</Company>
+    <Authors>Codex</Authors>
+    <RepositoryUrl>https://github.com/eric861129/DotNet-MicroService-Sample</RepositoryUrl>
+  </PropertyGroup>
+</Project>

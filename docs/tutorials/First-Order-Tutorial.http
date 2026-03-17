@@ -1,0 +1,42 @@
+@gateway = http://localhost:8080
+@productId = REPLACE_WITH_PRODUCT_ID
+
+### 0. Gateway 是否有啟動
+GET {{gateway}}/
+
+### 1. 建立商品
+POST {{gateway}}/catalog/products
+Content-Type: application/json
+
+{
+  "sku": "DEMO-CHAIR-001",
+  "name": "學習小椅子",
+  "price": 1280
+}
+
+### 2. 建立庫存
+POST {{gateway}}/inventory/inventory
+Content-Type: application/json
+
+{
+  "productId": "{{productId}}",
+  "sku": "DEMO-CHAIR-001",
+  "quantityOnHand": 50
+}
+
+### 3. 建立訂單
+POST {{gateway}}/ordering/orders
+Content-Type: application/json
+
+{
+  "customerEmail": "student@example.com",
+  "items": [
+    {
+      "productId": "{{productId}}",
+      "quantity": 2
+    }
+  ]
+}
+
+### 4. 查詢通知
+GET {{gateway}}/notification/notifications

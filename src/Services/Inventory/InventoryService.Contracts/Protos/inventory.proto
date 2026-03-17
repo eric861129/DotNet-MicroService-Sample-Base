@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "InventoryService.Contracts";
+
+package inventory;
+
+service InventoryGrpc {
+  rpc CheckAvailability (CheckAvailabilityRequest) returns (CheckAvailabilityReply);
+}
+
+message CheckAvailabilityRequest {
+  string product_id = 1;
+  int32 required_quantity = 2;
+}
+
+message CheckAvailabilityReply {
+  string product_id = 1;
+  int32 available_quantity = 2;
+  bool is_available = 3;
+}

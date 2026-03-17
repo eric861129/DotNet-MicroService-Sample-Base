@@ -1,0 +1,37 @@
+body {
+  background:
+    radial-gradient(circle at top left, rgba(15, 23, 42, 0.18), transparent 30rem),
+    linear-gradient(180deg, #eef4fb 0%, #f8fafc 100%);
+}
+:root[data-theme="dark"] body {
+  background:
+    radial-gradient(circle at top left, rgba(45, 212, 191, 0.12), transparent 28rem),
+    linear-gradient(180deg, #07111f 0%, #08111f 100%);
+}
+.classic-layout { display: grid; grid-template-columns: 320px minmax(0, 1fr); }
+.classic-sidebar { position: sticky; top: 0; height: 100vh; overflow: auto; padding: 24px; display: grid; gap: 16px; border-right: 1px solid var(--line); background: rgba(248, 250, 252, 0.88); backdrop-filter: blur(16px); }
+.classic-brand { font-size: 1.2rem; font-weight: 800; text-decoration: none; }
+.classic-nav, .classic-header-copy { display: grid; gap: 18px; }
+.classic-main { padding: 28px; display: grid; gap: 24px; }
+.classic-header { padding: 28px; border-radius: 32px; background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(241, 245, 249, 0.94)); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.classic-header-copy { gap: 14px; max-width: 860px; }
+.classic-content-grid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 24px; align-items: start; }
+.classic-article { overflow: hidden; }
+.classic-article-inner { padding: 34px; }
+.classic-footer { padding: 0 34px 28px; }
+.classic-toc-shell { position: sticky; top: 24px; }
+.classic-toc-card { display: grid; gap: 14px; padding: 22px; border-radius: 24px; background: rgba(255, 255, 255, 0.92); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.classic-toc-card h2 { margin: 0; font-size: 1.1rem; }
+:root[data-theme="dark"] .classic-sidebar { background: rgba(8, 17, 31, 0.86); }
+:root[data-theme="dark"] .classic-header { background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.82)); }
+:root[data-theme="dark"] .classic-toc-card { background: rgba(15, 23, 42, 0.92); }
+@media (max-width: 1080px) {
+  .classic-layout { grid-template-columns: 1fr; }
+  .classic-sidebar { position: relative; height: auto; border-right: 0; border-bottom: 1px solid var(--line); }
+  .classic-content-grid { grid-template-columns: 1fr; }
+  .classic-toc-shell { position: relative; top: 0; }
+}
+@media (max-width: 640px) {
+  .classic-main, .classic-sidebar { padding: 16px; }
+  .classic-header, .classic-article-inner, .classic-footer, .classic-toc-card { padding-left: 18px; padding-right: 18px; }
+}
