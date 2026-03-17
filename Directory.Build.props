@@ -9,6 +9,6 @@
     <NoWarn>$(NoWarn);1591</NoWarn>
     <Company>Eric861129</Company>
     <Authors>Codex</Authors>
-    <RepositoryUrl>https://github.com/eric861129/DotNet-MicroService-Sample</RepositoryUrl>
+    <RepositoryUrl>https://github.com/eric861129/DotNet-MicroService-Sample-Base</RepositoryUrl>
   </PropertyGroup>
 </Project>

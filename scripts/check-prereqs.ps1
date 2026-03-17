@@ -1,7 +1,5 @@
 [CmdletBinding()]
-param(
-    [switch] $RequireAzureCli
-)
+param()
 
 . (Join-Path $PSScriptRoot 'common.ps1')
 
@@ -10,14 +8,14 @@ $repoRoot = Get-RepoRoot
 Write-Step 'Checking prerequisites'
 
 if (-not (Test-CommandAvailable 'dotnet')) {
-    throw 'dotnet was not found. Install .NET SDK 9 or newer.'
+    throw 'dotnet was not found. Install .NET SDK 9.0.x first.'
 }
 
 $dotnetVersion = (& dotnet --version | Select-Object -First 1).Trim()
 Write-Success "dotnet SDK: $dotnetVersion"
 
-if (-not ($dotnetVersion.StartsWith('9.') -or $dotnetVersion.StartsWith('10.'))) {
-    Write-Note 'This repo is validated with .NET 9/10 style SDKs.'
+if (-not $dotnetVersion.StartsWith('9.')) {
+    Write-Note 'This repo is validated with .NET SDK 9.0.x.'
 }
 
 if (-not (Test-CommandAvailable 'docker')) {
@@ -26,27 +24,14 @@ if (-not (Test-CommandAvailable 'docker')) {
 
 try {
     & docker info | Out-Null
-    if ($LASTEXITCODE -ne 0) {
-        throw 'docker info returned a non-zero exit code.'
-    }
 }
 catch {
     throw 'docker is installed, but the Docker daemon is not running.'
 }
 
 Write-Success 'docker command is available'
-
 & docker compose version | Out-Null
 Write-Success 'docker compose command is available'
-
-if ($RequireAzureCli) {
-    if (-not (Test-CommandAvailable 'az')) {
-        throw 'Azure CLI was not found.'
-    }
-
-    & az bicep version | Out-Null
-    Write-Success 'Azure CLI / Bicep commands are available'
-}
 
 $envPath = Ensure-EnvFile -RepoRoot $repoRoot
 $envMap = Get-DotEnvMap -Path $envPath

@@ -8,18 +8,15 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       ASPNETCORE_URLS: ${ASPNETCORE_URLS}
-      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT}
-      Security__Jwt__Authority: ${AUTH_AUTHORITY}
+      Security__Jwt__Issuer: ${JWT_ISSUER}
+      Security__Jwt__Audience: ${JWT_AUDIENCE}
+      Security__Jwt__SigningKey: ${JWT_SIGNING_KEY}
       ReverseProxy__Clusters__catalog-cluster__Destinations__catalog-destination__Address: ${CATALOG_API_INTERNAL_URL}
       ReverseProxy__Clusters__ordering-cluster__Destinations__ordering-destination__Address: ${ORDERING_API_INTERNAL_URL}
-      ReverseProxy__Clusters__inventory-cluster__Destinations__inventory-destination__Address: ${INVENTORY_API_INTERNAL_URL}
-      ReverseProxy__Clusters__notification-cluster__Destinations__notification-destination__Address: ${NOTIFICATION_API_INTERNAL_URL}
     depends_on:
       - auth-service-api
       - catalog-service-api
-      - inventory-service-api
       - ordering-service-api
-      - notification-service-api
 
   auth-service-api:
     build:
@@ -30,10 +27,14 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       ASPNETCORE_URLS: ${ASPNETCORE_URLS}
-      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT}
-      ConnectionStrings__AuthDb: ${AUTH_DB_CONNECTION_STRING}
-    depends_on:
-      - auth-db
+      Auth__Jwt__Issuer: ${JWT_ISSUER}
+      Auth__Jwt__Audience: ${JWT_AUDIENCE}
+      Auth__Jwt__SigningKey: ${JWT_SIGNING_KEY}
+      Auth__Jwt__AccessTokenLifetimeMinutes: ${JWT_ACCESS_TOKEN_LIFETIME_MINUTES}
+      Auth__Clients__0__ClientId: ${GATEWAY_CLIENT_ID}
+      Auth__Clients__0__ClientSecret: ${GATEWAY_CLIENT_SECRET}
+      Auth__Clients__0__AllowedScopes__0: catalog.read
+      Auth__Clients__0__AllowedScopes__1: ordering.write
 
   catalog-service-api:
     build:
@@ -44,34 +45,9 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       ASPNETCORE_URLS: ${ASPNETCORE_URLS}
-      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT}
       ConnectionStrings__CatalogDb: ${CATALOG_DB_CONNECTION_STRING}
-      Security__Jwt__Authority: ${AUTH_AUTHORITY}
-      Security__InternalAuth__TokenEndpoint: ${AUTH_TOKEN_ENDPOINT}
     depends_on:
       - catalog-db
-
-  inventory-service-api:
-    build:
-      context: .
-      dockerfile: src/Services/Inventory/InventoryService.Api/Dockerfile
-    ports:
-      - "${INVENTORY_SERVICE_PORT}:8080"
-    environment:
-      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
-      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT}
-      ConnectionStrings__InventoryDb: ${INVENTORY_DB_CONNECTION_STRING}
-      Messaging__Provider: RabbitMq
-      Messaging__RabbitMq__Host: ${RABBITMQ_HOST}
-      Messaging__RabbitMq__VirtualHost: ${RABBITMQ_VHOST}
-      Messaging__RabbitMq__Username: ${RABBITMQ_USERNAME}
-      Messaging__RabbitMq__Password: ${RABBITMQ_PASSWORD}
-      Security__Jwt__Authority: ${AUTH_AUTHORITY}
-      Security__InternalAuth__TokenEndpoint: ${AUTH_TOKEN_ENDPOINT}
-    depends_on:
-      - inventory-db
-      - rabbitmq
 
   ordering-service-api:
     build:
@@ -82,44 +58,11 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       ASPNETCORE_URLS: ${ASPNETCORE_URLS}
-      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT}
       ConnectionStrings__OrderingDb: ${ORDERING_DB_CONNECTION_STRING}
-      Messaging__Provider: RabbitMq
-      Messaging__RabbitMq__Host: ${RABBITMQ_HOST}
-      Messaging__RabbitMq__VirtualHost: ${RABBITMQ_VHOST}
-      Messaging__RabbitMq__Username: ${RABBITMQ_USERNAME}
-      Messaging__RabbitMq__Password: ${RABBITMQ_PASSWORD}
-      Services__Catalog__GrpcUrl: ${CATALOG_GRPC_URL}
-      Services__Inventory__GrpcUrl: ${INVENTORY_GRPC_URL}
-      Security__Jwt__Authority: ${AUTH_AUTHORITY}
-      Security__InternalAuth__TokenEndpoint: ${AUTH_TOKEN_ENDPOINT}
+      Services__Catalog__BaseUrl: ${CATALOG_API_INTERNAL_URL}
     depends_on:
       - ordering-db
-      - rabbitmq
       - catalog-service-api
-      - inventory-service-api
-
-  notification-service-api:
-    build:
-      context: .
-      dockerfile: src/Services/Notification/NotificationService.Api/Dockerfile
-    ports:
-      - "${NOTIFICATION_SERVICE_PORT}:8080"
-    environment:
-      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ASPNETCORE_URLS: ${ASPNETCORE_URLS}
-      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT}
-      ConnectionStrings__NotificationDb: ${NOTIFICATION_DB_CONNECTION_STRING}
-      Messaging__Provider: RabbitMq
-      Messaging__RabbitMq__Host: ${RABBITMQ_HOST}
-      Messaging__RabbitMq__VirtualHost: ${RABBITMQ_VHOST}
-      Messaging__RabbitMq__Username: ${RABBITMQ_USERNAME}
-      Messaging__RabbitMq__Password: ${RABBITMQ_PASSWORD}
-      Security__Jwt__Authority: ${AUTH_AUTHORITY}
-      Security__InternalAuth__TokenEndpoint: ${AUTH_TOKEN_ENDPOINT}
-    depends_on:
-      - notification-db
-      - rabbitmq
 
   catalog-db:
     image: mcr.microsoft.com/mssql/server:2022-latest
@@ -136,90 +79,3 @@ services:
       SA_PASSWORD: ${SQL_SA_PASSWORD}
     ports:
       - "${ORDERING_DB_PORT}:1433"
-
-  inventory-db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: ${SQL_SA_PASSWORD}
-    ports:
-      - "${INVENTORY_DB_PORT}:1433"
-
-  notification-db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: ${SQL_SA_PASSWORD}
-    ports:
-      - "${NOTIFICATION_DB_PORT}:1433"
-
-  auth-db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: ${SQL_SA_PASSWORD}
-    ports:
-      - "${AUTH_DB_PORT}:1433"
-
-  rabbitmq:
-    image: rabbitmq:3.13-management
-    command: >
-      bash -c "rabbitmq-plugins enable --offline rabbitmq_prometheus && rabbitmq-server"
-    environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USERNAME}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
-      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VHOST}
-    ports:
-      - "${RABBITMQ_AMQP_PORT}:5672"
-      - "${RABBITMQ_MANAGEMENT_PORT}:15672"
-
-  otel-collector:
-    image: otel/opentelemetry-collector-contrib:0.115.1
-    command: ["--config=/etc/otelcol-contrib/config.yaml"]
-    volumes:
-      - ./infra/local/otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml:ro
-    ports:
-      - "${OTEL_GRPC_PORT}:4317"
-      - "${OTEL_HTTP_PORT}:4318"
-    depends_on:
-      - tempo
-      - loki
-
-  prometheus:
-    image: prom/prometheus:v2.55.1
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
-    volumes:
-      - ./infra/local/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - ./infra/local/prometheus-alerts.yml:/etc/prometheus/alerts.yml:ro
-    ports:
-      - "${PROMETHEUS_PORT}:9090"
-
-  loki:
-    image: grafana/loki:3.2.1
-    command: ["-config.file=/etc/loki/local-config.yaml"]
-    volumes:
-      - ./infra/local/loki-config.yml:/etc/loki/local-config.yaml:ro
-    ports:
-      - "${LOKI_PORT}:3100"
-
-  tempo:
-    image: grafana/tempo:2.6.1
-    command: ["-config.file=/etc/tempo.yaml"]
-    volumes:
-      - ./infra/local/tempo.yml:/etc/tempo.yaml:ro
-    ports:
-      - "${TEMPO_PORT}:3200"
-
-  grafana:
-    image: grafana/grafana:11.3.0
-    ports:
-      - "${GRAFANA_PORT}:3000"
-    volumes:
-      - ./infra/local/grafana/provisioning/datasources:/etc/grafana/provisioning/datasources:ro
-      - ./infra/local/grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards:ro
-      - ./infra/local/grafana/dashboards:/var/lib/grafana/dashboards:ro
-    depends_on:
-      - prometheus
-      - loki
-      - tempo

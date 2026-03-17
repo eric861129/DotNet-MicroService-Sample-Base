@@ -15,7 +15,7 @@ $cleanupTargets = Get-ChildItem -Path $repoRoot -Recurse -Directory -Force |
     Where-Object { $_.Name -in @('bin', 'obj', 'TestResults', '.vs') }
 
 foreach ($target in $cleanupTargets) {
-    Remove-Item $target.FullName -Recurse -Force -ErrorAction SilentlyContinue
+    cmd /c rmdir /s /q "$($target.FullName)" 2>$null
 }
 
 Write-Success 'Removed bin / obj / TestResults / .vs'
@@ -23,7 +23,7 @@ Write-Success 'Removed bin / obj / TestResults / .vs'
 if (-not $KeepEnvFile) {
     $envPath = Join-Path $repoRoot '.env'
     if (Test-Path $envPath) {
-        Remove-Item $envPath -Force
+        cmd /c del /q "$envPath"
         Write-Success 'Removed .env'
     }
 }

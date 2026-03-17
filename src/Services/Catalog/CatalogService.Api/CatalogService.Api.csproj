@@ -4,25 +4,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore" />
-    <PackageReference Include="MassTransit" />
-    <PackageReference Include="MassTransit.RabbitMQ" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\BuildingBlocks\Enterprise.Configuration\Enterprise.Configuration.csproj" />
-    <ProjectReference Include="..\..\..\BuildingBlocks\Enterprise.Observability\Enterprise.Observability.csproj" />
-    <ProjectReference Include="..\..\..\BuildingBlocks\Enterprise.Security\Enterprise.Security.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\Enterprise.ServiceDefaults\Enterprise.ServiceDefaults.csproj" />
-    <ProjectReference Include="..\CatalogService.Application\CatalogService.Application.csproj" />
-    <ProjectReference Include="..\CatalogService.Contracts\CatalogService.Contracts.csproj" />
-    <ProjectReference Include="..\CatalogService.Infrastructure\CatalogService.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

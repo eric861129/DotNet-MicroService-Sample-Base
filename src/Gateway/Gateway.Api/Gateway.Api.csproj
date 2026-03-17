@@ -10,8 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BuildingBlocks\Enterprise.Configuration\Enterprise.Configuration.csproj" />
-    <ProjectReference Include="..\..\BuildingBlocks\Enterprise.Observability\Enterprise.Observability.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\Enterprise.Security\Enterprise.Security.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\Enterprise.ServiceDefaults\Enterprise.ServiceDefaults.csproj" />
   </ItemGroup>

@@ -30,10 +30,6 @@ function Ensure-EnvFile {
     $envPath = Join-Path $RepoRoot '.env'
     $examplePath = Join-Path $RepoRoot '.env.example'
 
-    if (-not (Test-Path $examplePath)) {
-        throw 'Cannot find .env.example.'
-    }
-
     if (-not (Test-Path $envPath)) {
         Copy-Item $examplePath $envPath
         Write-Success 'Created .env from .env.example.'
@@ -85,22 +81,9 @@ function Get-ConfiguredPorts {
         'GATEWAY_PORT',
         'AUTH_SERVICE_PORT',
         'CATALOG_SERVICE_PORT',
-        'INVENTORY_SERVICE_PORT',
         'ORDERING_SERVICE_PORT',
-        'NOTIFICATION_SERVICE_PORT',
         'CATALOG_DB_PORT',
-        'ORDERING_DB_PORT',
-        'INVENTORY_DB_PORT',
-        'NOTIFICATION_DB_PORT',
-        'AUTH_DB_PORT',
-        'RABBITMQ_AMQP_PORT',
-        'RABBITMQ_MANAGEMENT_PORT',
-        'OTEL_GRPC_PORT',
-        'OTEL_HTTP_PORT',
-        'PROMETHEUS_PORT',
-        'LOKI_PORT',
-        'TEMPO_PORT',
-        'GRAFANA_PORT'
+        'ORDERING_DB_PORT'
     )
 
     foreach ($key in $keys) {
@@ -156,7 +139,7 @@ function Get-PascalCaseName {
             $_.ToUpperInvariant()
         }
         else {
-            $_.Substring(0, 1).ToUpperInvariant() + $_.Substring(1).ToLowerInvariant()
+            $_.Substring(0, 1).ToUpperInvariant() + $_.Substring(1)
         }
     }) -join ''
 }
